@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}    
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="posts-listing col-lg-8"> 
+          <div class="container">
+            <div class="row">
+              <!-- post -->
+              {% for post in article_post%}
+              <div class="post col-xl-6">
+                <div class="post-thumbnail"><a href="{{post.get_absolute_url}}"><img src="{{ post.image.url }}" alt="..." class="img-fluid"></a></div>
+                <div class="post-details">
+                  <div class="post-meta d-flex justify-content-between">
+                    <div class="date meta-last">{{post.created}}</div>
+                    <div class="category">
+                    {% for cat in post.categories.all %}
+                      <a href="#">{{cat}}</a>
+                    {%endfor%}
+                    </div>
+                  </div><a href="{{post.get_absolute_url}}">
+                    <h3 class="h4">{{post.title|truncatewords:7}}</h3></a>
+                  <p class="text-muted">{{post.text|safe|truncatewords:30}}</p>
+                  <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                      <div class="avatar"><img src="{{post.author.profile_image.url}}" alt="..." class="img-fluid"></div>
+                      <div class="title"><span>{{post.author}}</span></div></a>
+                    <div class="date"><i class="icon-clock"></i> {{post.created|timesince}}</div>
+                    <div class="comments meta-last"><i class="icon-comment"></i>{{post.comments.count}}</div>
+                  </footer>
+                </div>
+              </div>
+              {%endfor%}              
+            </div>
+            <!-- Pagination -->
+            {% if article_post.has_other_pages %}
+            <nav aria-label="Page navigation example">            
+              <ul class="pagination pagination-template d-flex justify-content-center">
+                {% if article_post.has_previous %}
+                <li class="page-item"><a href="?{{page_request_var}}={{article_post.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+                {% endif%}
+                {%for i in article_post.paginator.page_range %}
+                    {% if article_post.number == i %}
+                      <li class="page-item active"><a class="page-link">{{i}}</a></li>
+                    {% else %}
+                      <li class="page-item"><a href="?{{page_request_var}}={{i}}" class="page-link">{{i}}</a></li>
+                    {% endif %}
+                {% endfor%}
+                {% if article_post.has_next %}
+                <li class="page-item"><a href="?{{page_request_var}}={{article_post.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+                {% endif  %}
+              </ul>
+            </nav>
+            {% endif %}
+          </div>
+        </main>
+        {% include "sidebar.html" with most_recent=most_recent category_count=category_count %}
+      </div>
+    </div>    
+{% endblock content %}

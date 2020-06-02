@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}    
+<h2>This is result</h2>
+    {% for result in queryset%}
+        <div class="post col-xl-6">
+            <div class="post-thumbnail"><a href="{{result.get_absolute_url}}"><img src="{{ result.image.url }}" alt="..." class="img-fluid"></a></div>
+                <div class="post-details">
+                    <div class="post-meta d-flex justify-content-between">
+                    <div class="date meta-last">{{result.created}}</div>
+                    <div class="category">
+                    {% for cat in result.categories.all %}
+                        <a href="#">{{cat}}</a>
+                    {%endfor%}
+                    </div>
+                    </div><a href="{{result.get_absolute_url}}">
+                    <h3 class="h4">{{result.title|truncatewords:7}}</h3></a>
+                    <p class="text-muted">{{result.text|safe|truncatewords:30}}</p>
+                    <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                        <div class="avatar"><img src="{{result.author.profile_image.url}}" alt="..." class="img-fluid"></div>
+                        <div class="title"><span>{{result.author}}</span></div></a>
+                    <div class="date"><i class="icon-clock"></i> {{result.created|timesince}}</div>
+                    <div class="comments meta-last"><i class="icon-comment"></i>12</div>
+                    </footer>
+                </div>
+            </div>
+    {% endfor %}
+{% endblock %}
