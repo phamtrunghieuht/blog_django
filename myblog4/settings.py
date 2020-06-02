@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'herokuapp',
     'blog',
     'marketing',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
