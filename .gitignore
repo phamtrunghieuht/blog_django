@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+django_venv
+db.sqlite3
+vast-garden-59462
+Procfile
+requirements.txt
+runtime.txt
